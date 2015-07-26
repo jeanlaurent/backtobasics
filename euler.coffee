@@ -226,8 +226,11 @@ euler11 = ->
       product = value(x,y) * value(x+1,y+1) * value(x+2,y+2) * value(x+3,y+3)
       recordBiggest product, "#{value(x,y)} * #{value(x+1,y+1)} * #{value(x+2,y+2)} * #{value(x+3,y+3)} "
       product = value(x,y) * value(x-1,y+1) * value(x-2,y+2) * value(x-3,y+3)
-      recordBiggest product, "#{value(x,y)} * #{value(x-1,y+1)} * #{value(x-2,y+2)} * #{value(x-3,y+3)} "    
+      recordBiggest product, "#{value(x,y)} * #{value(x-1,y+1)} * #{value(x-2,y+2)} * #{value(x-3,y+3)} "
   console.log biggestOperation
   return biggest
 
-console.log euler11()
+euler12 = ->
+  return 'wip'
+
+console.log euler12()
