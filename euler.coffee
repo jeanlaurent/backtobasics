@@ -211,27 +211,22 @@ euler11 = ->
   biggest = -1
 
   value = (xx,yy) ->
+    return 0 if xx > width or yy > height
     numbers[yy*width + xx]
   recordBiggest = (number, operation) ->
       if number > biggest
         biggest = number
         biggestOperation = operation
-  for y in [0...height]
-    for x in [0..width - 4]
+  for x in [0...width]
+    for y in [0...height]
       product = value(x,y) * value(x+1,y) * value(x+2,y) * value(x+3,y)
       recordBiggest product, "#{value(x,y)} * #{value(x+1,y)} * #{value(x+2,y)} * #{value(x+3,y)} "
-  for x in [0...width]
-    for y in [0..height-4]
       product = value(x,y) * value(x,y+1) * value(x,y+2) * value(x,y+3)
       recordBiggest product, "#{value(x,y)} * #{value(x,y+1)} * #{value(x,y+2)} * #{value(x,y+3)} "
-  for x in [0..width-4]
-    for y in [0..width-4]
       product = value(x,y) * value(x+1,y+1) * value(x+2,y+2) * value(x+3,y+3)
       recordBiggest product, "#{value(x,y)} * #{value(x+1,y+1)} * #{value(x+2,y+2)} * #{value(x+3,y+3)} "
-  for x in [3...width]
-    for y in [0..height-4]
       product = value(x,y) * value(x-1,y+1) * value(x-2,y+2) * value(x-3,y+3)
-      recordBiggest product, "#{value(x,y)} * #{value(x-1,y+1)} * #{value(x-2,y+2)} * #{value(x-3,y+3)} "
+      recordBiggest product, "#{value(x,y)} * #{value(x-1,y+1)} * #{value(x-2,y+2)} * #{value(x-3,y+3)} "    
   console.log biggestOperation
   return biggest
 
