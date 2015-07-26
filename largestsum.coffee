@@ -1,7 +1,5 @@
 #Given an array of integers (positive and negative) find the largest continuous sum. - See more at: http://www.ardendertat.com/2011/09/24/programming-interview-questions-3-largest-continuous-sum/#sthash.HePYjMm3.dpuf
 
-
-
 largestSum = (source) ->
   sum = 0
   maxSum = 0
