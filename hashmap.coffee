@@ -20,16 +20,15 @@ class HashMap
     index = @hashFunction key
     if @storage[index]?
       found = item for item in @storage[index] when item.key == key
-      return found.value if found?
-      return undefined
+      return undefined unless found?
+      return found.value
     else
       undefined
 
 hashFunctionForString = (string) ->
-    hash = 7
-    for index in [0...string.length]
-      hash = hash * 31 + string.charCodeAt(index)
-    return hash
+    hash = 11
+    hash = hash * 31 + string.charCodeAt(index) for index in [0...string.length]
+    hash
 
 # tinytest lib
 
