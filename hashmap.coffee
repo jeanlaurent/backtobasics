@@ -31,6 +31,8 @@ hashFunctionForString = (string) ->
       hash = hash * 31 + string.charCodeAt(index)
     return hash
 
+# tinytest lib
+
 assertEqual = (object1, object2) ->
   throw "#{object1} is not equal to #{object2}" unless object1 == object2
   return object2
@@ -43,6 +45,8 @@ should = (name, callback) ->
     console.log "      >> #{error}"
     return
   console.log " ok  : should #{name}"
+
+# tests
 
 should "add new element", ->
   hashMap = new HashMap hashFunctionForString
