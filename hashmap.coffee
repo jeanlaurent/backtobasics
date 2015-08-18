@@ -3,7 +3,7 @@ class HashItem
 
 class HashMap
   constructor: (@hashFunction, @size = 100) ->
-    @flatStorage = []
+    @flatStorage = new Array(@size)
 
   hash: (key) ->
     score = @hashFunction(key) % @size
