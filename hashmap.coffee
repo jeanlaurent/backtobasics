@@ -2,28 +2,30 @@ class HashItem
   constructor: (@key, @value) ->
 
 class HashMap
-  constructor: (@hashFunction) ->
-    @storage = []
+  constructor: (@hashFunction, @size = 100) ->
+    @flatStorage = []
+
+  hash: (key) ->
+    score = @hashFunction(key) % @size
 
   add: (key, value) ->
-    index = @hashFunction key
-    if @storage[index]?
-      indexFound = i for item, i in @storage[index] when item.key == key
+    index = @hash key
+    if @flatStorage[index]?
+      indexFound = i for item, i in @flatStorage[index] when item.key == key
       if indexFound?
-        @storage[index][indexFound] = new HashItem(key, value)
+        @flatStorage[index][indexFound] = new HashItem(key, value)
       else
-        @storage[index].push new HashItem(key, value)
+        @flatStorage[index].push new HashItem(key, value)
     else
-      @storage[index] = [ new HashItem(key, value) ]
+      @flatStorage[index] = [ new HashItem(key, value) ]
 
   get: (key) ->
-    index = @hashFunction key
-    if @storage[index]?
-      found = item for item in @storage[index] when item.key == key
-      return undefined unless found?
-      return found.value
-    else
-      undefined
+    index = @hash key
+    return undefined unless @flatStorage[index]?
+    found = item for item in @flatStorage[index] when item.key == key
+    return undefined unless found?
+    found.value
+
 
 hashFunctionForString = (string) ->
     hash = 11
@@ -47,7 +49,7 @@ should = (name, callback) ->
 # tests
 
 should "add new element", ->
-  hashMap = new HashMap hashFunctionForString
+  hashMap = new HashMap(hashFunctionForString, 10)
   hashMap.add("foo","bar")
   assertEqual hashMap.get("foo"), "bar"
 
@@ -56,7 +58,7 @@ should "return undefined when element is not found", ->
   assertEqual hashMap.get "foo", undefined
 
 should "add not erase new element" , ->
-  hashMap = new HashMap hashFunctionForString
+  hashMap = new HashMap(hashFunctionForString, 10)
   hashMap.add("foo","bar")
   hashMap.add("bar", "foo")
   assertEqual hashMap.get("foo"), "bar"
