@@ -2,22 +2,30 @@ class HashItem
   constructor: (@key, @value) ->
 
 class HashMap
-  constructor: (@hashFunction, @size = 100) ->
-    @flatStorage = new Array(@size)
+  constructor: (@hashFunction, @initialSize = 101, @loadFactor = .75) ->
+    @size = @initialSize
+    @load = 0
+    @flatStorage = new Array @size
 
   hash: (key) ->
     score = @hashFunction(key) % @size
 
   add: (key, value) ->
+    @load++
+    @checkLoad()
+    @insert key, value, @flatStorage
+
+  insert: (key, value, storage) ->
     index = @hash key
-    if @flatStorage[index]?
-      indexFound = i for item, i in @flatStorage[index] when item.key == key
+    if storage[index]?
+      indexFound = i for item, i in storage[index] when item.key == key
       if indexFound?
-        @flatStorage[index][indexFound] = new HashItem(key, value)
+        storage[index][indexFound] = new HashItem(key, value)
       else
-        @flatStorage[index].push new HashItem(key, value)
+        storage[index].push new HashItem(key, value)
     else
-      @flatStorage[index] = [ new HashItem(key, value) ]
+      storage[index] = [ new HashItem(key, value) ]
+
 
   get: (key) ->
     index = @hash key
@@ -26,6 +34,15 @@ class HashMap
     return undefined unless found?
     found.value
 
+  checkLoad: () ->
+    return unless @load > @size * @loadFactor
+    newStorage = []
+    previousSize = @size
+    @size *= 2
+    for index in [0...previousSize]
+      if @flatStorage[index]?
+        @flatStorage[index].forEach (item) => @insert item.key, item.value, newStorage
+    @flatStorage = newStorage
 
 hashFunctionForString = (string) ->
     hash = 11
@@ -42,7 +59,10 @@ should = (name, callback) ->
     callback()
   catch error
     console.log "fail : should #{name}"
-    console.log "      >> #{error}"
+    if error.stack?
+      console.log "      >> #{error.stack}"
+    else
+      console.log "      >> #{error}"
     return
   console.log " ok  : should #{name}"
 
@@ -82,3 +102,15 @@ should "replace the right element eventhoug a collision occurs", ->
   hashMap.add("foo","bar")
   hashMap.add("foo", "qiz")
   assertEqual hashMap.get("foo"), "qiz"
+
+should "checkload somehow" , ->
+  randomInt = -> Math.floor(Math.random() * 100) #not to have numbers in a row.
+  hashMap = new HashMap hashFunctionForString ,10
+  hashMap.add("foo#{randomInt()}", "bar#{i}") for i in [0...7]
+  assertEqual(hashMap.load, 7)
+  console.log hashMap.flatStorage
+  console.log "------"
+  hashMap.add("foo#{randomInt()}", "bar#{i}") for i in [7..9]
+  assertEqual(hashMap.size, 20)
+  assertEqual(hashMap.load, 10)
+  console.log hashMap.flatStorage
