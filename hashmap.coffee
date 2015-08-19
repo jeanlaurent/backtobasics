@@ -26,7 +26,6 @@ class HashMap
     else
       storage[index] = [ new HashItem(key, value) ]
 
-
   get: (key) ->
     index = @hash key
     return undefined unless @flatStorage[index]?
@@ -36,7 +35,7 @@ class HashMap
 
   checkLoad: () ->
     return unless @load > @size * @loadFactor
-    newStorage = []
+    newStorage = [] # this could be done in place, by flagging the moved element, and cleaning them aftewards
     previousSize = @size
     @size *= 2
     for index in [0...previousSize]
@@ -104,7 +103,7 @@ should "replace the right element eventhoug a collision occurs", ->
   assertEqual hashMap.get("foo"), "qiz"
 
 should "checkload somehow" , ->
-  randomInt = -> Math.floor(Math.random() * 100) #not to have numbers in a row.
+  randomInt = -> Math.floor(Math.random() * 100) #not to have increment of 1 hashes.
   hashMap = new HashMap hashFunctionForString ,10
   hashMap.add("foo#{randomInt()}", "bar#{i}") for i in [0...7]
   assertEqual(hashMap.load, 7)
