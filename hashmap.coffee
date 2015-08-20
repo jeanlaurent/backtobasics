@@ -3,7 +3,7 @@ class HashItem
 
 class HashMap
   constructor: (@hashFunction, @initialSize = 101, @loadFactor = .75) ->
-    @size = @initialSize
+    @size = @findNearestPrime @initialSize
     @load = 0
     @flatStorage = new Array @size
 
@@ -37,11 +37,21 @@ class HashMap
     return unless @load > @size * @loadFactor
     newStorage = [] # this could be done in place, by flagging the moved element, and cleaning them aftewards
     previousSize = @size
-    @size *= 2
+    @size = @findNearestPrime @size * 2
     for index in [0...previousSize]
       if @flatStorage[index]?
         @flatStorage[index].forEach (item) => @insert item.key, item.value, newStorage
     @flatStorage = newStorage
+
+  findNearestPrime: (someNumber) ->
+    isPrime = (target) ->
+      if target - 1 > 2
+        for divisor in [Math.floor(Math.sqrt(target)+1)..2]
+          return false if (target % divisor == 0)
+      true
+    number = someNumber
+    number++ until isPrime number
+    number
 
 hashFunctionForString = (string) ->
     hash = 11
@@ -110,6 +120,11 @@ should "checkload somehow" , ->
   console.log hashMap.flatStorage
   console.log "------"
   hashMap.add("foo#{randomInt()}", "bar#{i}") for i in [7..9]
-  assertEqual(hashMap.size, 20)
+  assertEqual(hashMap.size, 23)
   assertEqual(hashMap.load, 10)
   console.log hashMap.flatStorage
+
+should "find nearest prime", ->
+  hashMap = new HashMap -> 7
+  assertEqual(hashMap.findNearestPrime(10), 11)
+  assertEqual(hashMap.findNearestPrime(100), 101)
