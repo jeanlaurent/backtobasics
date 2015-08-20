@@ -15,6 +15,15 @@ class HashMap
         @load++
         @checkLoad()
 
+  delete: (key) ->
+    index = @hash key
+    return false unless @flatStorage[index]?
+    rank = rank for item, rank in @flatStorage[index] when item.key == key
+    return false unless rank?
+    @flatStorage[index].splice(rank - 1, 1)
+    @load--
+    true
+
   insert: (key, value, storage) ->
     index = @hash key
     if storage[index]?
@@ -147,3 +156,14 @@ should "find nearest prime", ->
   hashMap = new HashMap -> 7
   assertEqual(hashMap.findNearestPrime(10), 11)
   assertEqual(hashMap.findNearestPrime(100), 101)
+
+should "delete an element", ->
+  hashMap = new HashMap hashFunctionForString ,10
+  hashMap.add "foo", "123"
+  hashMap.add "bar", "456"
+  hashMap.add "qix", "789"
+  assertEqual hashMap.load, 3
+  hasBeenDeleted = hashMap.delete "bar"
+  assertEqual hasBeenDeleted, true
+  assertEqual hashMap.get "bar", undefined
+  assertEqual hashMap.load, 2
