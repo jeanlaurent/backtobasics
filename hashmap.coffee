@@ -8,7 +8,7 @@ class HashMap
     @flatStorage = new Array @size
 
   hash: (key) ->
-    score = @hashFunction(key) % @size
+    @hashFunction(key) % @size
 
   add: (key, value) ->
     @load++
