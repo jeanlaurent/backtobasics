@@ -11,9 +11,9 @@ class HashMap
     @hashFunction(key) % @size
 
   add: (key, value) ->
-    @load++
-    @checkLoad()
-    @insert key, value, @flatStorage
+    if @insert key, value, @flatStorage
+        @load++
+        @checkLoad()
 
   insert: (key, value, storage) ->
     index = @hash key
@@ -21,10 +21,13 @@ class HashMap
       indexFound = i for item, i in storage[index] when item.key == key
       if indexFound?
         storage[index][indexFound] = new HashItem(key, value)
+        return false
       else
         storage[index].push new HashItem(key, value)
+        return true
     else
       storage[index] = [ new HashItem(key, value) ]
+      return true
 
   get: (key) ->
     index = @hash key
@@ -123,6 +126,22 @@ should "checkload somehow" , ->
   assertEqual(hashMap.size, 23)
   assertEqual(hashMap.load, 10)
   console.log hashMap.flatStorage
+
+should "grow load when adding item", ->
+  hashMap = new HashMap hashFunctionForString ,10
+  hashMap.add "foo", "bar"
+  assertEqual hashMap.load, 1
+  hashMap.add "bar", "bar"
+  assertEqual hashMap.load, 2
+  hashMap.add "qix", "bar"
+  assertEqual hashMap.load, 3
+
+should "not grow load when replacing item", ->
+  hashMap = new HashMap hashFunctionForString ,10
+  hashMap.add "foo", "bar"
+  assertEqual hashMap.load, 1
+  hashMap.add "foo", "qix"
+  assertEqual hashMap.load, 1
 
 should "find nearest prime", ->
   hashMap = new HashMap -> 7
