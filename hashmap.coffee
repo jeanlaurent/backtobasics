@@ -42,8 +42,7 @@ class HashMap
     index = @hash key
     return undefined unless @flatStorage[index]?
     found = item for item in @flatStorage[index] when item.key == key
-    return undefined unless found?
-    found.value
+    found?.value
 
   checkLoad: () ->
     return unless @load > @size * @loadFactor
