@@ -72,8 +72,14 @@ hashFunctionForString = (string) ->
 
 # tinytest lib
 
-assertEqual = (object1, object2) ->
+assertEquals = (object1, object2) ->
   throw "#{object1} is not equal to #{object2}" unless object1 == object2
+
+assertTrue = (object1) ->
+  throw "#{object1} is not true" unless object1 == true
+
+assertUndefined = (object1) ->
+  throw "#{object1} is not undefined" unless object1 == undefined
 
 should = (name, callback) ->
   try
@@ -92,78 +98,78 @@ should = (name, callback) ->
 should "add new element", ->
   hashMap = new HashMap(hashFunctionForString, 10)
   hashMap.add("foo","bar")
-  assertEqual hashMap.get("foo"), "bar"
+  assertEquals hashMap.get("foo"), "bar"
 
 should "return undefined when element is not found", ->
   hashMap = new HashMap hashFunctionForString
-  assertEqual hashMap.get "foo", undefined
+  assertUndefined hashMap.get "foo"
 
 should "add not erase new element" , ->
   hashMap = new HashMap(hashFunctionForString, 10)
   hashMap.add("foo","bar")
   hashMap.add("bar", "foo")
-  assertEqual hashMap.get("foo"), "bar"
-  assertEqual hashMap.get("bar"), "foo"
+  assertEquals hashMap.get("foo"), "bar"
+  assertEquals hashMap.get("bar"), "foo"
 
 should "erase element if key is same", ->
   hashMap = new HashMap hashFunctionForString
   hashMap.add("foo","bar")
   hashMap.add("foo", "qix")
-  assertEqual hashMap.get("foo"), "qix"
+  assertEquals hashMap.get("foo"), "qix"
 
 should "avoid collision when collision occurs", ->
   hashMap = new HashMap -> 7
   hashMap.add("foo","bar")
   hashMap.add("bar", "foo")
-  assertEqual hashMap.get("foo"), "bar"
-  assertEqual hashMap.get("bar"), "foo"
+  assertEquals hashMap.get("foo"), "bar"
+  assertEquals hashMap.get("bar"), "foo"
 
 should "replace the right element eventhoug a collision occurs", ->
   hashMap = new HashMap -> 7
   hashMap.add("foo","bar")
   hashMap.add("foo", "qiz")
-  assertEqual hashMap.get("foo"), "qiz"
+  assertEquals hashMap.get("foo"), "qiz"
 
 should "checkload somehow" , ->
   randomId = (hundred) -> Math.floor(Math.random() * 10) + (hundred + 1) * 100
   hashMap = new HashMap hashFunctionForString ,10
   hashMap.add("foo#{randomId(i)}", "bar#{i}") for i in [0...7]
-  assertEqual(hashMap.load, 7)
+  assertEquals(hashMap.load, 7)
 #  console.log hashMap.flatStorage
 #  console.log "------"
   hashMap.add("foo#{randomId(i)}", "bar#{i}") for i in [7..9]
-  assertEqual(hashMap.size, 23)
-  assertEqual(hashMap.load, 10)
+  assertEquals(hashMap.size, 23)
+  assertEquals(hashMap.load, 10)
 #  console.log hashMap.flatStorage
 
 should "grow load when adding item", ->
   hashMap = new HashMap hashFunctionForString ,10
   hashMap.add "foo", "bar"
-  assertEqual hashMap.load, 1
+  assertEquals hashMap.load, 1
   hashMap.add "bar", "bar"
-  assertEqual hashMap.load, 2
+  assertEquals hashMap.load, 2
   hashMap.add "qix", "bar"
-  assertEqual hashMap.load, 3
+  assertEquals hashMap.load, 3
 
 should "not grow load when replacing item", ->
   hashMap = new HashMap hashFunctionForString ,10
   hashMap.add "foo", "bar"
-  assertEqual hashMap.load, 1
+  assertEquals hashMap.load, 1
   hashMap.add "foo", "qix"
-  assertEqual hashMap.load, 1
+  assertEquals hashMap.load, 1
 
 should "find nearest prime", ->
   hashMap = new HashMap -> 7
-  assertEqual(hashMap.findNearestPrime(10), 11)
-  assertEqual(hashMap.findNearestPrime(100), 101)
+  assertEquals(hashMap.findNearestPrime(10), 11)
+  assertEquals(hashMap.findNearestPrime(100), 101)
 
 should "delete an element", ->
   hashMap = new HashMap hashFunctionForString ,10
   hashMap.add "foo", "123"
   hashMap.add "bar", "456"
   hashMap.add "qix", "789"
-  assertEqual hashMap.load, 3
+  assertEquals hashMap.load, 3
   hasBeenDeleted = hashMap.delete "bar"
-  assertEqual hasBeenDeleted, true
-  assertEqual hashMap.get "bar", undefined
-  assertEqual hashMap.load, 2
+  assertTrue hasBeenDeleted
+  assertUndefined hashMap.get "bar"
+  assertEquals hashMap.load, 2
