@@ -125,16 +125,16 @@ should "replace the right element eventhoug a collision occurs", ->
   assertEqual hashMap.get("foo"), "qiz"
 
 should "checkload somehow" , ->
-  randomInt = -> Math.floor(Math.random() * 100) #not to have increment of 1 hashes.
+  randomId = (hundred) -> Math.floor(Math.random() * 10) + (hundred + 1) * 100
   hashMap = new HashMap hashFunctionForString ,10
-  hashMap.add("foo#{randomInt()}", "bar#{i}") for i in [0...7]
+  hashMap.add("foo#{randomId(i)}", "bar#{i}") for i in [0...7]
   assertEqual(hashMap.load, 7)
-  console.log hashMap.flatStorage
-  console.log "------"
-  hashMap.add("foo#{randomInt()}", "bar#{i}") for i in [7..9]
+#  console.log hashMap.flatStorage
+#  console.log "------"
+  hashMap.add("foo#{randomId(i)}", "bar#{i}") for i in [7..9]
   assertEqual(hashMap.size, 23)
   assertEqual(hashMap.load, 10)
-  console.log hashMap.flatStorage
+#  console.log hashMap.flatStorage
 
 should "grow load when adding item", ->
   hashMap = new HashMap hashFunctionForString ,10
