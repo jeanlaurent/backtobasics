@@ -1,4 +1,4 @@
-package net.morlhon.exos;
+package net.morlhon.exos.pair;
 
 import java.util.ArrayList;
 import java.util.Arrays;

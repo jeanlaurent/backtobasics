@@ -1,4 +1,4 @@
-package net.morlhon.exos;
+package net.morlhon.exos.pair;
 
 public class Pair {
     int i;
