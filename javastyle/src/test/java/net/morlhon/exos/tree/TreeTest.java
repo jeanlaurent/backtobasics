@@ -39,6 +39,14 @@ public class TreeTest {
         assertThat(results).containsExactly("A", "C", "E", "D", "B", "H", "I", "G", "F");
     }
 
+    @Test
+    public void should_traverse_breadth_first() {
+        tree.breadthFirstTraverse(results::add);
+
+        System.out.println(results  );
+        assertThat(results).containsExactly("F","B","G","A","D","I","C","E","H");
+    }
+
 
     // Build a tree as in wikipedia example @
     // https://en.wikipedia.org/wiki/Tree_traversal
