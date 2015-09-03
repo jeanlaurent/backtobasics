@@ -1,39 +1,43 @@
 package net.morlhon.exos.tree;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class TreeTest {
 
+    private Tree<String> tree;
+    private ArrayList<String> results;
+
+    @Before
+    public void init() {
+        tree = buildTree();
+        results = new ArrayList<>();
+    }
+
     @Test
     public void should_traverse_preOrder() {
-        List<String> results = new ArrayList<>();
-        Tree<String> tree = buildTree();
         tree.preOrderTraverse(results::add);
+
         assertThat(results).containsExactly("F", "B", "A", "D", "C", "E", "G", "I", "H");
     }
 
     @Test
     public void should_traverse_inOrder() {
-        List<String> results = new ArrayList<>();
-        Tree<String> tree = buildTree();
         tree.inOrderTraverse(results::add);
-        assertThat(results).containsExactly("A","B","C","D","E","F","G","H","I");
+
+        assertThat(results).containsExactly("A", "B", "C", "D", "E", "F", "G", "H", "I");
     }
 
     @Test
     public void should_traverse_postOrder() {
-        List<String> results = new ArrayList<>();
-        Tree<String> tree = buildTree();
         tree.postOrderTraverse(results::add);
-        System.out.println(results);
-        assertThat(results).containsExactly("A","C","E","D","B","H","I","G","F");
-    }
 
+        assertThat(results).containsExactly("A", "C", "E", "D", "B", "H", "I", "G", "F");
+    }
 
 
     // Build a tree as in wikipedia example @

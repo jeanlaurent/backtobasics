@@ -42,7 +42,7 @@ public class Tree<T> {
         }
         consumer.accept(this.value);
     }
-    
+
 }
 
 
