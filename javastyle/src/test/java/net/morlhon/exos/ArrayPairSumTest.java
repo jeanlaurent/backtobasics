@@ -9,7 +9,6 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class ArrayPairSumTest {
-
     int[] input = new int[]{10, 2, 8, 7, 5, 0, 4, 9, 1, 6};
     int target = 10;
 
