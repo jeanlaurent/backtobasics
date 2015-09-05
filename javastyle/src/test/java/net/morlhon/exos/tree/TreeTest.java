@@ -43,7 +43,7 @@ public class TreeTest {
     public void should_traverse_breadth_first() {
         tree.breadthFirstTraverse(results::add);
 
-        System.out.println(results  );
+        System.out.println(results);
         assertThat(results).containsExactly("F","B","G","A","D","I","C","E","H");
     }
 
