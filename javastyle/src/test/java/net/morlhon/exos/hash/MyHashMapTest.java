@@ -46,6 +46,22 @@ public class MyHashMapTest {
     }
 
     @Test
+    public void should_delete_node() {
+        MyHashMap<String, String> map = new MyHashMap<>();
+        map.add("foo", "foo");
+        map.add("bar", "bar");
+        map.add("qix", "qix");
+        assertThat(map.get("foo")).isEqualTo("foo");
+        assertThat(map.get("bar")).isEqualTo("bar");
+        assertThat(map.get("qix")).isEqualTo("qix");
+        assertThat(map.delete("foo")).isTrue();
+        assertThat(map.get("foo")).isNull();
+        assertThat(map.get("bar")).isEqualTo("bar");
+        assertThat(map.get("qix")).isEqualTo("qix");
+    }
+
+
+    @Test
     public void should_rehash_if_loadfactor_is_reached() {
         MyHashMap<String, String> map = new MyHashMap<>(11);
         map.setLoadFactor(.8f);

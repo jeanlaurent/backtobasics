@@ -109,6 +109,20 @@ public class MyHashMap<K, V> {
         this.loadFactor = loadFactor;
     }
 
+    public boolean delete(K key) {
+        int hash = computeHash(key);
+        if (array[hash] == null) {
+            return false;
+        }
+        for (int i = 0; i < array[hash].size(); i++) {
+            if (array[hash].get(i).key.equals(key)) {
+                array[hash].remove(i);
+                return true;
+            }
+        }
+        return false;
+    }
+
 
     class Pair<K, V> {
         K key;
