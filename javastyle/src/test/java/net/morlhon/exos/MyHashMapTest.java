@@ -44,6 +44,22 @@ public class MyHashMapTest {
         assertThat(map.get(new Flawed("qix"))).isEqualTo("qix");
     }
 
+    @Test
+    public void should_rehash_if_loadfactor_is_reached() {
+        MyHashMap<String, String> map = new MyHashMap<>(11, .8f);
+        for (int i = 0; i < 8; i++) {
+            map.add("foo" + i, "foo" + i);
+        }
+        assertThat(map.array.length).isEqualTo(11);
+        assertThat(map.getLoad()).isEqualTo(8);
+        System.out.println(map.toString());
+        map.add("foo" + 8, "foo" + 8);
+        assertThat(map.getLoad()).isEqualTo(9);
+        assertThat(map.array.length).isEqualTo(23);
+        System.out.println(map.toString());
+
+    }
+
 
     class Flawed {
         public final String string;
@@ -64,7 +80,7 @@ public class MyHashMapTest {
 
         @Override
         public boolean equals(Object obj) {
-            return ((Flawed)obj).string.equals(string);
+            return ((Flawed) obj).string.equals(string);
         }
     }
 
