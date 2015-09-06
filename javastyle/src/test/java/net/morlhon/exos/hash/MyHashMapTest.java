@@ -39,7 +39,7 @@ public class MyHashMapTest {
         map.add(new Flawed("foo"), "foo");
         map.add(new Flawed("bar"), "bar");
         map.add(new Flawed("qix"), "qix");
-        assertThat(map.array[42].size()).isEqualTo(3);
+        assertThat(map.array()[42].size()).isEqualTo(3);
         assertThat(map.get(new Flawed("foo"))).isEqualTo("foo");
         assertThat(map.get(new Flawed("bar"))).isEqualTo("bar");
         assertThat(map.get(new Flawed("qix"))).isEqualTo("qix");
@@ -68,25 +68,28 @@ public class MyHashMapTest {
         for (int i = 0; i < 8; i++) {
             map.add("foo" + i, "foo" + i);
         }
-        assertThat(map.array.length).isEqualTo(11);
-        assertThat(map.getLoad()).isEqualTo(8);
-        System.out.println(map.toString());
+        assertThat(map.currentMaxSize()).isEqualTo(11);
+        assertThat(map.size()).isEqualTo(8);
+        assertThat(map.array()[0].get(0).key).isEqualTo("foo7"); // foo7 is @ rank 0
+//        System.out.println(map.toString());
         map.add("foo" + 8, "foo" + 8);
-        assertThat(map.getLoad()).isEqualTo(9);
-        assertThat(map.array.length).isEqualTo(23);
-        System.out.println(map.toString());
+        assertThat(map.size()).isEqualTo(9);
+        assertThat(map.currentMaxSize()).isEqualTo(23);
+        assertThat(map.array()[0]).isNull(); // nothing is at 0 anymore
+        assertThat(map.array()[11].get(0).key).isEqualTo("foo7"); // foo7 has moved to rank 11
+//        System.out.println(map.toString());
     }
 
     @Test
     public void should_not_change_size_when_size_is_already_a_prime_number() {
         MyHashMap<String, String> map = new MyHashMap<>(11);
-        assertThat(map.array.length).isEqualTo(11);
+        assertThat(map.currentMaxSize()).isEqualTo(11);
     }
 
     @Test
     public void should_find_nearest_greater_prime_number_of_suggested_size() {
         MyHashMap<String, String> map = new MyHashMap<>(100);
-        assertThat(map.array.length).isEqualTo(101);
+        assertThat(map.currentMaxSize()).isEqualTo(101);
     }
 
 

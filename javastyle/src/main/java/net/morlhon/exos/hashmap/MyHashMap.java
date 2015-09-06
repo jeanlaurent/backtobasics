@@ -3,23 +3,26 @@ package net.morlhon.exos.hashmap;
 import net.morlhon.exos.prime.Prime;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
 public class MyHashMap<K, V> {
+    public static final int DEFAULT_SIZE = 101;
+    public static final float DEFAULT_LOADFACTOR = .75f;
     private int size;
-    public List<Pair>[] array;
+    private List<Pair>[] array;
     private float loadFactor;
     private int load;
 
     public MyHashMap() {
-        this(101);
+        this(DEFAULT_SIZE);
     }
 
     public MyHashMap(int defaultSize) {
         this.load = 0;
         this.size = assignSize(defaultSize);
-        this.loadFactor = .75f;
+        this.loadFactor = DEFAULT_LOADFACTOR;
         array = new List[size]; //AHAHA Java generics you are just a failure... (no way to set new List<Pair>[size] or even better new List<>[size]
     }
 
@@ -101,12 +104,17 @@ public class MyHashMap<K, V> {
         return stringBuilder.toString();
     }
 
-    public int getLoad() {
+    public int currentMaxSize() {
+        return this.array.length;
+    }
+
+    public int size() {
         return this.load;
     }
 
     public void setLoadFactor(float loadFactor) {
         this.loadFactor = loadFactor;
+        // we should probably call checkLoadAndResizeIfNeeded() in a real impl
     }
 
     public boolean delete(K key) {
@@ -123,10 +131,14 @@ public class MyHashMap<K, V> {
         return false;
     }
 
+    public List<Pair>[] array() {
+        return Arrays.copyOf(array, array.length);
+    }
 
-    class Pair<K, V> {
-        K key;
-        V value;
+
+    public class Pair<K, V> {
+        public K key;
+        public V value;
 
         public Pair(K key, V value) {
             this.key = key;
