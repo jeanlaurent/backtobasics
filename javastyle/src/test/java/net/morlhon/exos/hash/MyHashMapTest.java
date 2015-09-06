@@ -99,7 +99,7 @@ public class MyHashMapTest {
 
         @Override
         public String toString() {
-            return string.toString();
+            return string;
         }
 
         @Override
