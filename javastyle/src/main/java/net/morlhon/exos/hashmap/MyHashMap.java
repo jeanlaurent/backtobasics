@@ -9,17 +9,17 @@ import java.util.Optional;
 public class MyHashMap<K, V> {
     private int size;
     public List<Pair>[] array;
-    private final float loadFactor;
+    private float loadFactor;
     private int load;
 
     public MyHashMap() {
-        this(101, .75f);
+        this(101);
     }
 
-    public MyHashMap(int defaultSize, float loadFactor) {
+    public MyHashMap(int defaultSize) {
         this.load = 0;
         this.size = assignSize(defaultSize);
-        this.loadFactor = loadFactor;
+        this.loadFactor = .75f;
         array = new List[size]; //AHAHA Java generics you are just a failure... (no way to set new List<Pair>[size] or even better new List<>[size]
     }
 
@@ -103,6 +103,10 @@ public class MyHashMap<K, V> {
 
     public int getLoad() {
         return this.load;
+    }
+
+    public void setLoadFactor(float loadFactor) {
+        this.loadFactor = loadFactor;
     }
 
 

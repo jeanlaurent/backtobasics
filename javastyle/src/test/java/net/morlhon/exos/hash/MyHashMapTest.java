@@ -47,7 +47,8 @@ public class MyHashMapTest {
 
     @Test
     public void should_rehash_if_loadfactor_is_reached() {
-        MyHashMap<String, String> map = new MyHashMap<>(11, .8f);
+        MyHashMap<String, String> map = new MyHashMap<>(11);
+        map.setLoadFactor(.8f);
         for (int i = 0; i < 8; i++) {
             map.add("foo" + i, "foo" + i);
         }
@@ -62,13 +63,13 @@ public class MyHashMapTest {
 
     @Test
     public void should_not_change_size_when_size_is_already_a_prime_number() {
-        MyHashMap<String, String> map = new MyHashMap<>(11, .8f);
+        MyHashMap<String, String> map = new MyHashMap<>(11);
         assertThat(map.array.length).isEqualTo(11);
     }
 
     @Test
     public void should_find_nearest_greater_prime_number_of_suggested_size() {
-        MyHashMap<String, String> map = new MyHashMap<>(100, .8f);
+        MyHashMap<String, String> map = new MyHashMap<>(100);
         assertThat(map.array.length).isEqualTo(101);
     }
 
