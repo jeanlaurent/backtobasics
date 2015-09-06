@@ -1,5 +1,6 @@
-package net.morlhon.exos;
+package net.morlhon.exos.hash;
 
+import net.morlhon.exos.hashmap.MyHashMap;
 import org.junit.Test;
 
 import static org.assertj.core.api.StrictAssertions.assertThat;

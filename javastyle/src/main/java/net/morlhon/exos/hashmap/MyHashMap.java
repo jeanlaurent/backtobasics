@@ -1,4 +1,6 @@
-package net.morlhon.exos;
+package net.morlhon.exos.hashmap;
+
+import net.morlhon.exos.prime.Prime;
 
 import java.util.ArrayList;
 import java.util.List;

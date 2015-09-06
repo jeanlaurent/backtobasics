@@ -1,7 +1,5 @@
-package net.morlhon.exos;
+package net.morlhon.exos.pair;
 
-import net.morlhon.exos.pair.ArrayPairSum;
-import net.morlhon.exos.pair.Pair;
 import org.junit.Test;
 
 import java.util.List;

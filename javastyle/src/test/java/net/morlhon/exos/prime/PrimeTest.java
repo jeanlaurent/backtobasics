@@ -1,4 +1,4 @@
-package net.morlhon.exos;
+package net.morlhon.exos.prime;
 
 import org.junit.Test;
 
