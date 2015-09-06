@@ -13,7 +13,7 @@ public class Prime {
         return true;
     }
 
-    public int nearestOf(int number) {
+    public int nearestGreaterOf(int number) {
         int someNumber = number + 1;
         while(!is(someNumber)) {
             someNumber++;

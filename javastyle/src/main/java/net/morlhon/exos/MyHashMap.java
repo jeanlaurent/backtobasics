@@ -16,9 +16,17 @@ public class MyHashMap<K, V> {
 
     public MyHashMap(int defaultSize, float loadFactor) {
         this.load = 0;
-        this.size = defaultSize;
+        this.size = assignSize(defaultSize);
         this.loadFactor = loadFactor;
         array = new List[size]; //AHAHA Java generics you are just a failure... (no way to set new List<Pair>[size] or even better new List<>[size]
+    }
+
+    private int assignSize(int suggestedSize) {
+        Prime prime = new Prime();
+        if (prime.is(suggestedSize)) {
+            return suggestedSize;
+        }
+        return prime.nearestGreaterOf(suggestedSize);
     }
 
 
@@ -51,7 +59,7 @@ public class MyHashMap<K, V> {
     }
 
     private void resizeMapAndRehash() {
-        this.size = new Prime().nearestOf( 2 * this.size);
+        this.size = new Prime().nearestGreaterOf(2 * this.size);
         List<Pair>[] newArray = new List[this.size];
         for (List<Pair> pairs : array) {
             if (pairs != null) {

@@ -24,12 +24,12 @@ public class PrimeTest {
 
     @Test
     public void should_find_nearest_prime_number() {
-        assertThat(new Prime().nearestOf(3)).isEqualTo(5);
-        assertThat(new Prime().nearestOf(7)).isEqualTo(11);
-        assertThat(new Prime().nearestOf(11)).isEqualTo(13);
-        assertThat(new Prime().nearestOf(13)).isEqualTo(17);
-        assertThat(new Prime().nearestOf(17)).isEqualTo(19);
-        assertThat(new Prime().nearestOf(19)).isEqualTo(23);
+        assertThat(new Prime().nearestGreaterOf(3)).isEqualTo(5);
+        assertThat(new Prime().nearestGreaterOf(7)).isEqualTo(11);
+        assertThat(new Prime().nearestGreaterOf(11)).isEqualTo(13);
+        assertThat(new Prime().nearestGreaterOf(13)).isEqualTo(17);
+        assertThat(new Prime().nearestGreaterOf(17)).isEqualTo(19);
+        assertThat(new Prime().nearestGreaterOf(19)).isEqualTo(23);
     }
 
 }

@@ -57,7 +57,18 @@ public class MyHashMapTest {
         assertThat(map.getLoad()).isEqualTo(9);
         assertThat(map.array.length).isEqualTo(23);
         System.out.println(map.toString());
+    }
 
+    @Test
+    public void should_not_change_size_when_size_is_already_a_prime_number() {
+        MyHashMap<String, String> map = new MyHashMap<>(11, .8f);
+        assertThat(map.array.length).isEqualTo(11);
+    }
+
+    @Test
+    public void should_find_nearest_greater_prime_number_of_suggested_size() {
+        MyHashMap<String, String> map = new MyHashMap<>(100, .8f);
+        assertThat(map.array.length).isEqualTo(101);
     }
 
 
