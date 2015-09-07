@@ -4,7 +4,6 @@ import java.util.concurrent.CountDownLatch;
 
 public class CountDownLatchExample {
 
-
     public class ReadingThread extends Thread {
         private final SharedData shared;
         private final CountDownLatch latch;
