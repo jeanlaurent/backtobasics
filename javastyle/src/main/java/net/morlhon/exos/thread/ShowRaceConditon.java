@@ -1,4 +1,4 @@
-package net.morlhon.exos;
+package net.morlhon.exos.thread;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
